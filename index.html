@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Steady Haul Logistics</title>
+  <meta name="description" content="Electric trucking for short-haul freight that can be planned properly." />
+  <style>
+    :root {
+      --bg: #f3f2ee;
+      --surface: rgba(255,255,255,0.86);
+      --surface-strong: #ffffff;
+      --text: #171717;
+      --muted: #5f6368;
+      --line: rgba(23,23,23,0.1);
+      --accent: #2457d6;
+      --accent-soft: rgba(36, 87, 214, 0.08);
+      --shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(36,87,214,0.08), transparent 28%),
+        linear-gradient(180deg, #f7f6f2 0%, #efeee9 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; }
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(14px);
+      background: rgba(247, 246, 242, 0.82);
+      border-bottom: 1px solid rgba(23, 23, 23, 0.06);
+      z-index: 10;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .brand-mark {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2457d6, #1a1f2d);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.24);
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .brand-sub {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 500;
+      margin-top: 0.08rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .hero {
+      padding: 5.5rem 0 3.25rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2.2rem;
+      align-items: center;
+    }
+    h1, h2, h3 { line-height: 1.08; letter-spacing: -0.035em; margin: 0; }
+    h1 { font-size: clamp(2.8rem, 6vw, 5rem); max-width: 12ch; }
+    h2 { font-size: clamp(1.8rem, 3vw, 2.45rem); margin-bottom: 1rem; }
+    h3 { font-size: 1.08rem; margin-bottom: 0.7rem; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(23,23,23,0.06);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+    .lede {
+      font-size: 1.12rem;
+      color: var(--muted);
+      max-width: 63ch;
+      margin: 1.45rem 0 0;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 1.75rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      transition: 160ms ease;
+    }
+    .btn-primary {
+      background: var(--text);
+      color: white;
+      box-shadow: 0 12px 30px rgba(23,23,23,0.14);
+    }
+    .btn-primary:hover { background: #262626; }
+    .hero-card {
+      min-height: 470px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(9,12,19,0.04), rgba(9,12,19,0.18)),
+        radial-gradient(circle at top left, rgba(36,87,214,0.38), transparent 34%),
+        linear-gradient(145deg, #cdd5df 0%, #8b96a1 40%, #4d5967 68%, #1a2029 100%);
+      border: 1px solid rgba(23,23,23,0.08);
+      box-shadow: 0 30px 80px rgba(15,23,42,0.16);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 44%;
+      background: linear-gradient(180deg, transparent, rgba(15,23,42,0.34));
+    }
+    .hero-card::after {
+      content: "Houston \00B7 Short-haul \00B7 Electric fleet";
+      position: absolute;
+      left: 1.35rem;
+      bottom: 1.35rem;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.96);
+      letter-spacing: 0.025em;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      margin-top: 1.8rem;
+    }
+    .stat {
+      padding: 0.95rem 1rem;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(23,23,23,0.06);
+    }
+    .stat strong {
+      display: block;
+      font-size: 0.96rem;
+      margin-bottom: 0.2rem;
+    }
+    .stat span {
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+    section { padding: 2.35rem 0; }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem 2rem;
+      align-items: start;
+    }
+    .panel, .feature, .audience, .closing {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .panel {
+      border-radius: 26px;
+      padding: 1.6rem;
+    }
+    .panel p, .feature p, .audience p, .closing p, footer p {
+      margin: 0;
+      color: var(--muted);
+    }
+    .features, .audiences {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .feature, .audience {
+      border-radius: 24px;
+      padding: 1.45rem;
+      min-height: 220px;
+    }
+    .feature-tag {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      padding: 0.28rem 0.56rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .quote {
+      margin-top: 1rem;
+      padding: 1.1rem 1.2rem;
+      border-left: 3px solid rgba(36,87,214,0.28);
+      color: #42464d;
+      background: rgba(255,255,255,0.5);
+      border-radius: 0 18px 18px 0;
+    }
+    .closing {
+      border-radius: 30px;
+      padding: 2.2rem;
+      margin: 3rem 0 4rem;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.84)),
+        radial-gradient(circle at top right, rgba(36,87,214,0.08), transparent 38%);
+    }
+    footer {
+      padding: 0 0 3rem;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+    @media (max-width: 900px) {
+      .hero, .split, .features, .audiences, .hero-stats {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding-top: 3.6rem; }
+      .hero-card { min-height: 320px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand-wrap" href="#top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>
+          <span class="brand">Steady Haul Logistics</span>
+          <span class="brand-sub">Houston, Texas</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="#model">Model</a>
+        <a href="#approach">Approach</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Short-haul freight, planned with more care</div>
+        <h1>Electric trucking for short-haul freight that can be planned properly.</h1>
+        <p class="lede">Steady Haul Logistics serves repeatable Houston-area freight movements where the route, schedule, and operating conditions are stable enough to support dependable electric operations over time.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:hello@steady-haul-logistics.com">hello@steady-haul-logistics.com</a>
+        </div>
+        <div class="hero-stats" aria-label="Focus areas">
+          <div class="stat"><strong>Houston-focused</strong><span>Built around local short-haul freight.</span></div>
+          <div class="stat"><strong>Repeatable lanes</strong><span>Known routes, timing, and operating windows.</span></div>
+          <div class="stat"><strong>Measured growth</strong><span>Expansion driven by route fit and service quality.</span></div>
+        </div>
+      </div>
+      <div class="hero-card" aria-hidden="true"></div>
+    </section>
+
+    <section id="model" class="split">
+      <div>
+        <h2>A practical operating model</h2>
+        <p class="lede">Steady Haul is being built around lanes that are known in advance, manageable in distance, and supported by a charging plan that is settled before the day begins. Electric trucking becomes much more credible when the work is structured to fit the equipment instead of asking the equipment to rescue a poorly chosen lane.</p>
+        <div class="quote">The business is meant to start with work that is operationally comprehensible. That makes the service easier to trust and gives the model room to improve through repetition rather than improvisation.</div>
+      </div>
+      <div class="panel">
+        <h3>What we handle</h3>
+        <p>Our focus is short-haul freight with recurring patterns, especially where pickup and delivery points remain consistent and service quality depends on discipline, timing, and route control. The initial emphasis is on Houston-area industrial, port-adjacent, and other regional movements where those conditions are present.</p>
+      </div>
+    </section>
+
+    <section id="approach">
+      <h2>How the model is meant to work</h2>
+      <div class="features">
+        <div class="feature">
+          <span class="feature-tag">Lane fit</span>
+          <h3>Repeatable lanes</h3>
+          <p>We are interested in freight that follows a known pattern and can be run with clear assumptions about timing, distance, and dwell.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-tag">Execution</span>
+          <h3>Disciplined operations</h3>
+          <p>The model depends on route fit, charging fit, and service commitments that can be maintained without improvisation becoming the norm.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-tag">Equipment</span>
+          <h3>Modern equipment, used carefully</h3>
+          <p>The point is to use the right equipment on the right work in a way that produces reliable service and a more stable operating plan.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="split">
+        <div>
+          <h2>Why this approach</h2>
+          <p class="lede">A large share of freight is still a poor fit for electric operations. The better path is to begin with lanes that are structurally compatible with the operating model and to build a business around consistency, credibility, and control. That creates a stronger foundation for customers and for long-term growth.</p>
+        </div>
+        <div>
+          <h2>Who we work with</h2>
+          <p class="lede">Steady Haul is best suited to shippers and operators with recurring short-haul freight, regular schedules, and facilities that benefit from a more deliberate service model.</p>
+        </div>
+      </div>
+      <div class="audiences">
+        <div class="audience">
+          <h3>Industrial sites</h3>
+          <p>Operators with predictable internal or regional freight movements and service windows that reward planning.</p>
+        </div>
+        <div class="audience">
+          <h3>Warehouses</h3>
+          <p>Facilities with recurring short-haul moves, repeat pickup and delivery points, and a preference for controlled execution.</p>
+        </div>
+        <div class="audience">
+          <h3>Port-adjacent operations</h3>
+          <p>Customers whose freight lives near fixed routes, known timing, and operating conditions that can be understood before launch.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" id="contact">
+      <h2>Start with the right lane</h2>
+      <p>If you have a Houston-area lane with a repeatable operating pattern, we would be glad to discuss whether it fits this model.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="mailto:hello@steady-haul-logistics.com">Talk to Steady Haul</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>Steady Haul Logistics<br/>Houston, Texas<br/><a href="https://steady-haul-logistics.com" target="_blank" rel="noreferrer">steady-haul-logistics.com</a></p>
+  </footer>
+</body>
+</html>
